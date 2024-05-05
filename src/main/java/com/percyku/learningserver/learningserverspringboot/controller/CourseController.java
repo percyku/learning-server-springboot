@@ -29,7 +29,6 @@ public class CourseController {
     public ResponseEntity<List<PageCourse>> getEnrolledCourses(Authentication authentication,
                                                      @PathVariable Long id){
 
-        System.out.println("UserId:"+id);
         List<PageCourse> courses = courseService.getCourseByStudent(id);
 
         for(PageCourse course : courses) {

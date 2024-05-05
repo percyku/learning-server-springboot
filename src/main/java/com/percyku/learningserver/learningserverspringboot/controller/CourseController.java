@@ -53,21 +53,13 @@ public class CourseController {
     public ResponseEntity<List<PageCourse>>getCourseByName(Authentication authentication,
                                                            @PathVariable Long id,
                                                            @RequestParam(value="courseName", required=true) String courseName){
-        System.out.println("id:"+id);
-        System.out.println("courseName:"+courseName);
         List<PageCourse> courses = courseService.getCourseByCourseName(id,courseName);
-
         return  ResponseEntity.status(HttpStatus.OK).body(courses);
     }
 
     @PostMapping("/api/courses")
     public ResponseEntity<PageCourse> createProduct(Authentication authentication,@RequestBody @Valid CourseRequest courseRequest){
 
-//        System.out.println(courseRequest.getUserId());
-//        System.out.println(courseRequest.getRole());
-//        System.out.println(courseRequest.getTitle()+",");
-//        System.out.println(courseRequest.getDescription()+",");
-//        System.out.println(courseRequest.getPrice());
         PageCourse pageCourse =courseService.createCourse(courseRequest);
         return ResponseEntity.status(HttpStatus.CREATED).body(pageCourse);
     }
@@ -78,7 +70,6 @@ public class CourseController {
 
 
         PageCourse pageCourse =courseService.enrollCourse(courseId,authentication.getName());
-
         return ResponseEntity.status(HttpStatus.OK).body(pageCourse);
     }
 

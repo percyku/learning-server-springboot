@@ -1,8 +1,10 @@
 package com.percyku.learningserver.learningserverspringboot.controller;
 
 
+import com.percyku.learningserver.learningserverspringboot.dto.UserRegisterRequest;
 import com.percyku.learningserver.learningserverspringboot.util.Member;
 import com.percyku.learningserver.learningserverspringboot.service.UserService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,11 +21,13 @@ public class UserController {
 
 
     @PostMapping("/register")
-    public ResponseEntity<Member> register(@RequestBody Member member){
+    public ResponseEntity<Member> register(@RequestBody @Valid UserRegisterRequest member){
 
         long result = userService.createUser(member);
+        if(result == -1){
+            throw new CommonException("This user had been exist: "+member.getEmail());
+        }
         Member theMember =userService.getMemberById(result);
-
         return ResponseEntity.status(HttpStatus.CREATED).body(theMember);
     }
 

@@ -1,10 +1,13 @@
 package com.percyku.learningserver.learningserverspringboot.service.imp;
 
 import com.percyku.learningserver.learningserverspringboot.dao.UserDao;
+import com.percyku.learningserver.learningserverspringboot.dto.UserRegisterRequest;
 import com.percyku.learningserver.learningserverspringboot.util.Member;
 import com.percyku.learningserver.learningserverspringboot.model.Role;
 import com.percyku.learningserver.learningserverspringboot.model.User;
 import com.percyku.learningserver.learningserverspringboot.service.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -16,6 +19,7 @@ import java.util.List;
 @Service
 public class UserServiceImpl implements UserService {
 
+    private final static Logger log = LoggerFactory.getLogger(UserServiceImpl.class);
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -24,8 +28,14 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public Long createUser(Member member) {
-        User user = null;
+    public Long createUser(UserRegisterRequest member) {
+        User user = userDao.getUserByEmail(member.getEmail());
+
+        if(user!= null){
+            return (long)-1;
+        }
+
+
         List<Role> theRole =new ArrayList<>();
         boolean enabled=false;
         if(member.getRoles()!= null){
@@ -62,7 +72,7 @@ public class UserServiceImpl implements UserService {
                     hashedPassword,
                     enabled);
         }
-        System.out.println(user.toString());
+        log.debug(user.toString());
 
 
 

@@ -57,7 +57,7 @@ public class CourseController {
     }
 
     @PostMapping("/api/courses")
-    public ResponseEntity<PageCourse> createProduct(Authentication authentication,@RequestBody @Valid CourseRequest courseRequest){
+    public ResponseEntity<PageCourse> createCourse(Authentication authentication,@RequestBody @Valid CourseRequest courseRequest){
 
         PageCourse pageCourse =courseService.createCourse(courseRequest);
         return ResponseEntity.status(HttpStatus.CREATED).body(pageCourse);

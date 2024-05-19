@@ -1,10 +1,11 @@
 package com.percyku.learningserver.learningserverspringboot.dto;
 
 
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 public class CourseRequest {
-    @NotNull
+    @NotBlank(message = "title cannot empty")
     private String title;
     @NotNull
     private String description;

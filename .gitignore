@@ -38,3 +38,6 @@ build/
 
 #Test java code
 MyControllerTest.java
+AppDao.java
+AppDaoImpl.java
+AppDaoRepository.java

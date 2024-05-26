@@ -8,11 +8,9 @@ import java.util.List;
 public interface CourseService {
 
     List<PageCourse> getCourseByStudent(Long memberId);
-    List<PageCourse> getCourseByCourseName(Long id,String courseName);
+    List<PageCourse> getCourseByCourseName(String userName,String courseName);
     List<PageCourse> getCourseByInstructor(Long memberId);
-    PageCourse getCourseById(Long courseId);
-    PageCourse createCourse(CourseRequest courseRequest);
-
-    PageCourse enrollCourse(int coursed,String userName);
+    PageCourse createCourse(String userName,CourseRequest courseRequest);
+    PageCourse enrollCourse(String userName,int courseId);
 
 }

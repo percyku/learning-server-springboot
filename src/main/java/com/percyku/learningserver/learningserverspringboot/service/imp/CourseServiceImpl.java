@@ -1,5 +1,6 @@
 package com.percyku.learningserver.learningserverspringboot.service.imp;
 
+
 import com.percyku.learningserver.learningserverspringboot.dao.CourseDao;
 import com.percyku.learningserver.learningserverspringboot.dao.UserDao;
 import com.percyku.learningserver.learningserverspringboot.dto.CourseRequest;
@@ -8,17 +9,17 @@ import com.percyku.learningserver.learningserverspringboot.model.User;
 import com.percyku.learningserver.learningserverspringboot.service.CourseService;
 import com.percyku.learningserver.learningserverspringboot.util.Member;
 import com.percyku.learningserver.learningserverspringboot.util.PageCourse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.ArrayList;
 import java.util.List;
 @Service
 public class CourseServiceImpl implements CourseService {
-
+    private final static Logger log = LoggerFactory.getLogger(CourseServiceImpl.class);
     @Autowired
     private CourseDao courseDao;
     @Autowired
@@ -46,7 +47,8 @@ public class CourseServiceImpl implements CourseService {
                     tmpCourse.getDescription(),
                     tmpCourse.getPrice(),
                     new Member(tmpCourse.getUser().getId(),tmpCourse.getUser().getUserName(),tmpCourse.getUser().getEmail()),
-                    students
+                    students,
+                    true
             );
 
             res.add(tmpPageCourse);
@@ -55,10 +57,10 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public List<PageCourse> getCourseByCourseName(Long id,String courseName) {
+    public List<PageCourse> getCourseByCourseName(String userName,String courseName) {
         List<Course> tmpCourses = courseDao.findCoursesByCourseName(courseName);
         List<PageCourse> res=new ArrayList<>();
-        System.out.println(tmpCourses.toString());
+        log.debug(tmpCourses.toString());
         if(tmpCourses.size() >0){
             User tmpInstructor=tmpCourses.get(0).getUser();
             Member instructor=new Member(tmpInstructor.getId(),
@@ -69,7 +71,7 @@ public class CourseServiceImpl implements CourseService {
                 List<Long>students= new ArrayList<>();
                 boolean registered=false;
                 for(User tmpStudent:tmpCourse.getUsers()){
-                    if(id == tmpStudent.getId()){
+                    if(userName.equals(tmpStudent.getEmail())){
                         registered=true;
                     }
                     students.add(tmpStudent.getId());
@@ -97,7 +99,7 @@ public class CourseServiceImpl implements CourseService {
 
         List<Course> tmpCourses = courseDao.findCoursesByInstructorId(memberId);
         List<PageCourse> res=new ArrayList<>();
-        System.out.println(tmpCourses.toString());
+        log.debug(tmpCourses.toString());
         if(tmpCourses.size() >0){
             User tmpInstructor=tmpCourses.get(0).getUser();
             Member instructor=new Member(tmpInstructor.getId(),
@@ -126,19 +128,15 @@ public class CourseServiceImpl implements CourseService {
         return res;
     }
 
-    @Override
-    public PageCourse getCourseById(Long courseId) {
-        return null;
-    }
 
     @Transactional
     @Override
-    public PageCourse createCourse(CourseRequest courseRequest) {
+    public PageCourse createCourse(String userName,CourseRequest courseRequest) {
 
-        User user =userDao.getUserById(courseRequest.getUserId());
+        User theInstructor =userDao.getUserByEmail(userName);
 //        int courseId=26;
         Course tempCourse =new Course(courseRequest.getTitle(),courseRequest.getDescription());
-        tempCourse.setUser(user);
+        tempCourse.setUser(theInstructor);
         tempCourse.setPrice(courseRequest.getPrice());
         tempCourse.setReviews(null);
         int courseId =  courseDao.createCourse(tempCourse);
@@ -150,7 +148,7 @@ public class CourseServiceImpl implements CourseService {
                 tmp.getTitle(),
                 tmp.getDescription(),
                 tmp.getPrice(),
-                new Member(user.getId(), user.getUserName(), user.getEmail() ),
+                new Member(theInstructor.getId(), theInstructor.getUserName(), theInstructor.getEmail() ),
                 new ArrayList<>()
         );
 
@@ -159,20 +157,19 @@ public class CourseServiceImpl implements CourseService {
 
     @Transactional
     @Override
-    public PageCourse enrollCourse(int coursed, String userName) {
+    public PageCourse enrollCourse(String userName,int courseId) {
 
-        //參考findCourseAndStudentsByCourseId
+        //reference findCourseAndStudentsByCourseId
 
         User student = userDao.getUserByEmail(userName);
-        Course course =courseDao.findCourseByCourseId(coursed);
-        System.out.println("student id:"+student.getId());
-        System.out.println("email:"+student.getEmail());
-        System.out.println("course id:"+course.getId());
+        Course course =courseDao.findCourseByCourseId(courseId);
+
+        log.debug("This student id:"+student.getId()+",email:"+student.getEmail());
 
         if(course == null){
             return null;
         }
-
+        log.debug("course id:"+course.getId());
         boolean checkExist=false;
         List<Long>students= new ArrayList<>();
         for(User tmpUser: course.getUsers()){
@@ -180,23 +177,21 @@ public class CourseServiceImpl implements CourseService {
                 checkExist =true;
             }
             students.add(tmpUser.getId());
-            System.out.println(tmpUser.toString());
+            log.debug("Each student information:"+tmpUser.toString());
+
         }
 
-        if(checkExist){
-            System.out.println(checkExist);
 
-        }else{
-            System.out.println(false);
+        log.debug("check had been register or not :" +checkExist);
+        if(!checkExist){
             course.addUsers(student);
             students.add(student.getId());
             List<User> tempUsers = course.getUsers();
             if(tempUsers != null){
                 for(User user : tempUsers){
-                    System.out.println(user.toString());
+                    log.debug("Each enroll student :" +user.toString());
                 }
             }
-
         }
 
 
@@ -204,13 +199,11 @@ public class CourseServiceImpl implements CourseService {
                 course.getId(),
                 course.getTitle(),
                 course.getDescription(),
-                1000,
+                course.getPrice(),
                 new Member(course.getUser().getId(), course.getUser().getUserName(), course.getUser().getEmail() ),
-                students
+                students,
+                true
         );
-
-
-
         return tmpPageCourse;
     }
 

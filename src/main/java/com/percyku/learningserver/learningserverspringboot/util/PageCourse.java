@@ -1,6 +1,5 @@
 package com.percyku.learningserver.learningserverspringboot.util;
 
-import com.percyku.learningserver.learningserverspringboot.util.Member;
 
 import java.util.List;
 

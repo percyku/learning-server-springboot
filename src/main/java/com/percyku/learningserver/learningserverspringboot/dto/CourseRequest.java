@@ -1,20 +1,23 @@
 package com.percyku.learningserver.learningserverspringboot.dto;
 
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.*;
+import org.hibernate.validator.constraints.Range;
 
 public class CourseRequest {
     @NotBlank(message = "title cannot empty")
+    @Size(max=128,message = "your description cannot exceed 128")
     private String title;
+
     @NotNull
+    @Size(max=256,message = "your description cannot exceed 256")
     private String description;
+
     @NotNull
-    private int price;
-    @NotNull
-    private Long userId;
-    @NotNull
-    private String role;
+    @Range(min=1,max=10000,message = "your price range between 1 and 10000")
+    private Integer price;
+
+
 
     public CourseRequest() {
     }
@@ -35,7 +38,7 @@ public class CourseRequest {
         this.description = description;
     }
 
-    public int getPrice() {
+    public Integer getPrice() {
         return price;
     }
 
@@ -43,19 +46,7 @@ public class CourseRequest {
         this.price = price;
     }
 
-    public Long getUserId() {
-        return userId;
-    }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
-    }
 
-    public String getRole() {
-        return role;
-    }
 
-    public void setRole(String role) {
-        this.role = role;
-    }
 }

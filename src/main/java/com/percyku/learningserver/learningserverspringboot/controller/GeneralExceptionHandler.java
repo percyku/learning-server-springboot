@@ -5,11 +5,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.method.HandlerMethod;
 
 import java.util.List;
 
@@ -33,9 +35,9 @@ public class GeneralExceptionHandler {
     }
 
     @ExceptionHandler(value = {MethodArgumentNotValidException.class})
-    public ResponseEntity<CommonErrorResponse> MethodArgumentNotValidaException(MethodArgumentNotValidException methodArgumentNotValidException){
+    public ResponseEntity<CommonErrorResponse> MethodArgumentNotValidException(MethodArgumentNotValidException methodArgumentNotValidException){
 
-        log.debug("which controller method method :" +methodArgumentNotValidException.getParameter().getExecutable().getName());
+        log.debug("Which controller method method :" +methodArgumentNotValidException.getParameter().getExecutable().getName());
 
         BindingResult rs =methodArgumentNotValidException.getBindingResult();
         StringBuilder resultMsg =new StringBuilder();
@@ -47,7 +49,29 @@ public class GeneralExceptionHandler {
             });
         }
 
-        log.debug("resultMsg :" +resultMsg.toString());
+        log.debug("Error resultMsg :" +resultMsg.toString());
+
+        //create a UserErrorResponse
+        CommonErrorResponse error =new CommonErrorResponse();
+        error.setStatus(HttpStatus.BAD_REQUEST.value());
+        error.setMessage(resultMsg.toString());
+        error.setTimeStamp(System.currentTimeMillis());
+
+        //return ResponseEntity
+        return new ResponseEntity<>(error,HttpStatus.BAD_REQUEST);
+    }
+
+
+    @ExceptionHandler(value = {HttpMessageNotReadableException.class})
+    public ResponseEntity<CommonErrorResponse> HttpMessageNotReadableException(HttpMessageNotReadableException httpMessageNotReadableException,
+                                                                                HandlerMethod handlerMethod){
+        log.debug("Which controller method method :" +handlerMethod.getMethod());
+
+        StringBuilder resultMsg =new StringBuilder();
+        resultMsg.append(httpMessageNotReadableException.getMessage());
+
+
+        log.debug("Error resultMsg :" +resultMsg.toString());
 
         //create a UserErrorResponse
         CommonErrorResponse error =new CommonErrorResponse();

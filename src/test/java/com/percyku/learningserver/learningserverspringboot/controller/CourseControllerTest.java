@@ -21,8 +21,11 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.transaction.annotation.Transactional;
 
 
+import java.util.List;
+
 import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -74,7 +77,7 @@ public class CourseControllerTest {
 
         mockMvc.perform(requestBuilder)
                 .andExpect(status().is(201))
-                .andExpect(jsonPath("$.id",equalTo(2)))
+                .andExpect(jsonPath("$.id",notNullValue()))
                 .andExpect(jsonPath("$.title",equalTo("testTitle")))
                 .andExpect(jsonPath("$.price",equalTo(1000)))
                 .andExpect(jsonPath("$.description",equalTo("testDescription")))
@@ -187,7 +190,6 @@ public class CourseControllerTest {
                 .andExpect(status().is(401));
     }
 
-
     @Test
     @Transactional
     public void enrollCourse_success()throws Exception{
@@ -226,10 +228,9 @@ public class CourseControllerTest {
                 .andExpect(jsonPath("$.registered",not(hasItem(true))));
     }
 
-
     @Test
     @Transactional
-    public void enrollCourse_success_repeat()throws Exception{
+    public void enrollCourse_success_intoRepeatCourse()throws Exception{
         Course course = courseDao.findCourseByCourseId(1);
         assertNotNull(course);
 
@@ -290,7 +291,7 @@ public class CourseControllerTest {
     }
 
     @Test
-    public void enrollCourse_success_newCourse()throws Exception{
+    public void enrollCourse_success_intoNewCourse()throws Exception{
         User instructor = userDao.getUserByEmail("instructor1.ku@gmail.com");
         assertNotNull(instructor);
 
@@ -310,7 +311,7 @@ public class CourseControllerTest {
 
         mockMvc.perform(requestBuilder)
                 .andExpect(status().is(201))
-                .andExpect(jsonPath("$.id",equalTo(2)))
+                .andExpect(jsonPath("$.id",notNullValue()))
                 .andExpect(jsonPath("$.title",equalTo("testTitle")))
                 .andExpect(jsonPath("$.price",equalTo(1000)))
                 .andExpect(jsonPath("$.description",equalTo("testDescription")))
@@ -326,8 +327,10 @@ public class CourseControllerTest {
                 .andExpect(jsonPath("$.registered",not(hasItem(false))));
 
 
-        Course course = courseDao.findCourseByCourseId(2);
-        assertNotNull(course);
+        List<Course> courses = courseDao.findCoursesByCourseName("");
+        assertNotNull(courses);
+
+        Course course = courses.get(courses.size()-1);
 
         instructor = userDao.getUserByEmail(course.getUser().getEmail());
         assertNotNull(instructor);
@@ -362,7 +365,6 @@ public class CourseControllerTest {
 
 
     }
-
 
     @Test
     public void enrollCourse_fail_noCourse()throws Exception{
@@ -453,6 +455,114 @@ public class CourseControllerTest {
                 .andExpect(status().is(401));
     }
 
+    @Test
+    public void getCourseByName_success()throws Exception{
+        String courseName= "Spring";
+        User student = userDao.getUserByEmail("student1.ku@gmail.com");
+        assertNotNull(student);
+
+        List<Course> courses = courseDao.findCoursesByCourseName(courseName);
+        assertNotNull(courses);
+
+        Course course1 = courses.get(0);
+        int finalCourseNum =courses.size()-1;
+        Course courseFinal = courses.get(finalCourseNum);
+
+        RequestBuilder requestBuilder = MockMvcRequestBuilders
+                .get("/api/courses/findByName")
+                .param("courseName", courseName)
+                .contentType(MediaType.APPLICATION_JSON)
+                .with(httpBasic("student1.ku@gmail.com","fun123"));
+
+        mockMvc.perform(requestBuilder)
+                .andExpect(status().is(200))
+                .andExpect(jsonPath("$.[*]",hasSize(courses.size())))
+                .andExpect(jsonPath("$.[0].id",equalTo(course1.getId())))
+                .andExpect(jsonPath("$.[0].title",equalTo(course1.getTitle())))
+                .andExpect(jsonPath("$.[0].description",equalTo(course1.getDescription())))
+
+                .andExpect(jsonPath("$.["+finalCourseNum+"].id",equalTo(courseFinal.getId())))
+                .andExpect(jsonPath("$.["+finalCourseNum+"].title",equalTo(courseFinal.getTitle())))
+                .andExpect(jsonPath("$.["+finalCourseNum+"].description",equalTo(courseFinal.getDescription())))
+        ;
+    }
+
+    @Test
+    public void getCourseByName_success_noContent()throws Exception{
+        String courseName= "JSP";
+        User student = userDao.getUserByEmail("student1.ku@gmail.com");
+        assertNotNull(student);
+
+        List<Course> courses = courseDao.findCoursesByCourseName(courseName);
+        assertEquals(courses.size(),0);
+
+
+
+        RequestBuilder requestBuilder = MockMvcRequestBuilders
+                .get("/api/courses/findByName")
+                .param("courseName", courseName)
+                .contentType(MediaType.APPLICATION_JSON)
+                .with(httpBasic("student1.ku@gmail.com","fun123"));
+
+        mockMvc.perform(requestBuilder)
+                .andExpect(status().is(200))
+                .andExpect(jsonPath("$.[*]",hasSize(courses.size())));
+
+    }
+
+    @Test
+    public void getCourseByName_fail_noParam()throws Exception{
+        User student = userDao.getUserByEmail("student1.ku@gmail.com");
+        assertNotNull(student);
+
+        RequestBuilder requestBuilder = MockMvcRequestBuilders
+                .get("/api/courses/findByName")
+//                .param("courseName", "Spring")
+                .contentType(MediaType.APPLICATION_JSON)
+                .with(httpBasic("student1.ku@gmail.com","fun123"));
+
+        mockMvc.perform(requestBuilder)
+                .andExpect(status().is(400))
+        ;
+    }
+
+    @Test
+    public void getCourseByName_fail_noAccount()throws Exception{
+        String courseName= "Spring";
+
+
+        RequestBuilder requestBuilder = MockMvcRequestBuilders
+                .get("/api/courses/findByName")
+                .param("courseName", courseName)
+                .contentType(MediaType.APPLICATION_JSON);
+//                .with(httpBasic("instructor1.ku@gmail.com","fun123"));
+
+        mockMvc.perform(requestBuilder)
+                .andExpect(status().is(401));
+    }
+
+    @Test
+    public void getCourseByName_success_unAuthorized()throws Exception{
+        String courseName= "Spring";
+
+        User instructor = userDao.getUserByEmail("instructor1.ku@gmail.com");
+        assertNotNull(instructor);
+
+        List<Course> courses = courseDao.findCoursesByCourseName(courseName);
+
+
+
+        RequestBuilder requestBuilder = MockMvcRequestBuilders
+                .get("/api/courses/findByName")
+                .param("courseName", courseName)
+                .contentType(MediaType.APPLICATION_JSON)
+                .with(httpBasic("instructor1.ku@gmail.com","fun123"));
+
+        mockMvc.perform(requestBuilder)
+                .andExpect(status().is(403));
+    }
+
+
 
 
     @Test
@@ -481,7 +591,17 @@ public class CourseControllerTest {
 
         jdbc.execute("INSERT INTO course (title,price,description,user_id) VALUES ('SpringBoot2024',1000,'welcome to learn',6)");
         jdbc.execute("INSERT INTO course_user (course_id, user_id) VALUES (1,1)");
+
+        jdbc.execute("INSERT INTO course (title,price,description,user_id) VALUES ('SpringSecurity',1000,'welcome to learn',6)");
+        jdbc.execute("INSERT INTO course_user (course_id, user_id) VALUES (2,1)");
+
+        jdbc.execute("INSERT INTO course (title,price,description,user_id) VALUES ('Spring',1000,'welcome to learn',6)");
+        jdbc.execute("INSERT INTO course_user (course_id, user_id) VALUES (3,1)");
+
+
+        jdbc.execute("INSERT INTO course (title,price,description,user_id) VALUES ('SpringMVC',1000,'welcome to learn',6)");
     }
+
 
     @AfterEach
     public void setupAfterTransaction() {
@@ -494,18 +614,5 @@ public class CourseControllerTest {
         jdbc.execute("DELETE FROM user ");
         jdbc.execute("ALTER TABLE user AUTO_INCREMENT = 1");
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 }

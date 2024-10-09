@@ -1,9 +1,12 @@
 package com.percyku.learningserver.learningserverspringboot.security;
 
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.RequestBuilder;
@@ -22,17 +25,17 @@ public class MySecurityConfigTest {
     @Autowired
     private MockMvc mockMvc;
 
-    @Test
-    public void test(){
+    @Autowired
+    private JdbcTemplate jdbc;
 
-    }
+
 
 
     @Test
     public void test_loginSuccess() throws Exception {
         RequestBuilder requestBuilder = MockMvcRequestBuilders
                 .get("/loginforlearnsys?role=ROLE_STUDENT")
-                .with(httpBasic("percyku@gmail.com","fun123"));
+                .with(httpBasic("student1.ku@gmail.com","fun123"));
 
         mockMvc.perform(requestBuilder)
                 .andExpect(status().is(200));
@@ -70,7 +73,7 @@ public class MySecurityConfigTest {
     public void test_noCsrfToken() throws Exception {
         RequestBuilder requestBuilder = MockMvcRequestBuilders
                 .post("/api/courses")
-                .with(httpBasic("peter", "fun123"));
+                .with(httpBasic("instructor1.ku@gmail.com", "fun123"));
 
         mockMvc.perform(requestBuilder)
                 .andExpect(status().is(403));
@@ -80,7 +83,7 @@ public class MySecurityConfigTest {
     public void test_withCsrfToken() throws Exception {
         RequestBuilder requestBuilder = MockMvcRequestBuilders
                 .post("/api/courses")
-                .with(httpBasic("peterchen@gmail.com", "fun123"))
+                .with(httpBasic("instructor1.ku@gmail.com", "fun123"))
                 .with(csrf());
 
         mockMvc.perform(requestBuilder)
@@ -95,6 +98,30 @@ public class MySecurityConfigTest {
         mockMvc.perform(requestBuilder)
                 .andExpect(status().is(400));
     }
+
+
+    @Test
+    public void test(){
+
+    }
+
+
+    @BeforeEach
+    public void setupDatabase() {
+        jdbc.execute("INSERT INTO user (username,password,enabled, first_name, last_name, email) VALUES ('student1','$2a$04$eFytJDGtjbThXa80FyOOBuFdK2IwjyWefYkMpiBEFlpBwDH.5PM0K',1,'student1', 'ku', 'student1.ku@gmail.com')");
+        jdbc.execute("INSERT INTO users_roles (user_id,role_id) VALUES (1, 1)");
+
+        jdbc.execute("INSERT INTO user (username,password,enabled, first_name, last_name, email) VALUES ('instructor1','$2a$04$eFytJDGtjbThXa80FyOOBuFdK2IwjyWefYkMpiBEFlpBwDH.5PM0K',1,'instructor1', 'ku', 'instructor1.ku@gmail.com')");
+        jdbc.execute("INSERT INTO users_roles (user_id,role_id) VALUES (2, 2)");
+    }
+
+    @AfterEach
+    public void setupAfterTransaction() {
+        jdbc.execute("DELETE FROM users_roles");
+        jdbc.execute("DELETE FROM user ");
+        jdbc.execute("ALTER TABLE user AUTO_INCREMENT = 1");
+    }
+
 
 
 }

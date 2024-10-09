@@ -148,7 +148,7 @@ public class CourseServiceImpl implements CourseService {
                 tmp.getTitle(),
                 tmp.getDescription(),
                 tmp.getPrice(),
-                new Member(theInstructor.getId(), theInstructor.getUserName(), theInstructor.getEmail() ),
+                new Member(theInstructor.getId(), theInstructor.getEmail() ,theInstructor.getUserName()),
                 new ArrayList<>()
         );
 
@@ -200,7 +200,7 @@ public class CourseServiceImpl implements CourseService {
                 course.getTitle(),
                 course.getDescription(),
                 course.getPrice(),
-                new Member(course.getUser().getId(), course.getUser().getUserName(), course.getUser().getEmail() ),
+                new Member(course.getUser().getId(),  course.getUser().getEmail() ,course.getUser().getUserName()),
                 students,
                 true
         );

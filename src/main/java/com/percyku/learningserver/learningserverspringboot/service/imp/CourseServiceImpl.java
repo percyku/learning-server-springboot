@@ -46,7 +46,7 @@ public class CourseServiceImpl implements CourseService {
                     tmpCourse.getTitle(),
                     tmpCourse.getDescription(),
                     tmpCourse.getPrice(),
-                    new Member(tmpCourse.getUser().getId(),tmpCourse.getUser().getUserName(),tmpCourse.getUser().getEmail()),
+                    new Member(tmpCourse.getUser().getId(),tmpCourse.getUser().getEmail(),tmpCourse.getUser().getUserName()),
                     students,
                     true
             );
@@ -103,13 +103,15 @@ public class CourseServiceImpl implements CourseService {
         if(tmpCourses.size() >0){
             User tmpInstructor=tmpCourses.get(0).getUser();
             Member instructor=new Member(tmpInstructor.getId(),
-                                         tmpInstructor.getUserName(),
-                                         tmpInstructor.getEmail() );
+                                         tmpInstructor.getEmail(),
+                                         tmpInstructor.getUserName());
 
             for(Course tmpCourse : tmpCourses){
                 List<Long>students= new ArrayList<>();
+                boolean registered = false;
                 for(User tmpStudent:tmpCourse.getUsers()){
                     students.add(tmpStudent.getId());
+                    registered=true;
                 }
 
                 PageCourse tmpPageCourse = new PageCourse(
@@ -118,7 +120,8 @@ public class CourseServiceImpl implements CourseService {
                         tmpCourse.getDescription(),
                         tmpCourse.getPrice(),
                         instructor,
-                        students
+                        students,
+                        registered
                 );
                 res.add(tmpPageCourse);
             }

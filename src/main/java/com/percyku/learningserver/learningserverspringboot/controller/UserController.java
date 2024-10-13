@@ -37,6 +37,9 @@ public class UserController {
                                                    ){
         String username = authentication.getName();
         Member theMember = userService.getMemberByEmail(username);
+        if(theMember== null){
+            throw new CommonException("This user didn't exist: "+username);
+        }
 
         if(theMember.getRoles().contains(role)){
             theMember.setRole(role.split("_")[1]);

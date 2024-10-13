@@ -82,8 +82,12 @@ public class UserServiceImpl implements UserService {
     @Override
     public Member getMemberById(Long memberId) {
         User user =userDao.getUserById(memberId);
+        if(user ==null){
+            return null;
+        }
         Member member =new Member();
 
+        member.setId(user.getId());
         member.setEmail(user.getEmail());
         member.setFirst_name(user.getFirstName());
         member.setLast_name(user.getLastName());
@@ -104,6 +108,9 @@ public class UserServiceImpl implements UserService {
     @Override
     public Member getMemberByEmail(String email) {
         User user =userDao.getUserByEmail(email);
+        if(user ==null){
+            return null;
+        }
         Member member =new Member();
 
         member.setId(user.getId());

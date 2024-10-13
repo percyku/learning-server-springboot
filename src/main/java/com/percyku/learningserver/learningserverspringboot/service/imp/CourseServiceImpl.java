@@ -64,8 +64,8 @@ public class CourseServiceImpl implements CourseService {
         if(tmpCourses.size() >0){
             User tmpInstructor=tmpCourses.get(0).getUser();
             Member instructor=new Member(tmpInstructor.getId(),
-                    tmpInstructor.getUserName(),
-                    tmpInstructor.getEmail() );
+                    tmpInstructor.getEmail(),tmpInstructor.getUserName()
+                    );
 
             for(Course tmpCourse : tmpCourses){
                 List<Long>students= new ArrayList<>();

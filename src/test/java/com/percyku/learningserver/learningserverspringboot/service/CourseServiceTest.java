@@ -2,6 +2,7 @@ package com.percyku.learningserver.learningserverspringboot.service;
 
 import com.percyku.learningserver.learningserverspringboot.dao.CourseDao;
 import com.percyku.learningserver.learningserverspringboot.dao.UserDao;
+import com.percyku.learningserver.learningserverspringboot.dto.CourseRequest;
 import com.percyku.learningserver.learningserverspringboot.model.Course;
 import com.percyku.learningserver.learningserverspringboot.model.User;
 import com.percyku.learningserver.learningserverspringboot.util.PageCourse;
@@ -16,7 +17,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
 @SpringBootTest
@@ -201,6 +201,129 @@ class CourseServiceTest {
 
         assertEquals(coursesWithCourseName.size(),pageCourses.size(),0);
     }
+
+
+    @Test
+    @Transactional
+    public void createCourse_success(){
+        User instructor1 =userDao.getUserByEmail("instructor1.ku@gmail.com");
+        assertNotNull(instructor1);
+
+        CourseRequest courseRequest =new CourseRequest();
+        courseRequest.setTitle("testClass");
+        courseRequest.setDescription("testDescription");
+        courseRequest.setPrice(1000);
+
+        PageCourse createCourse = courseService.createCourse(instructor1.getEmail(),courseRequest);
+
+        assertNotNull(createCourse);
+
+        assertTrue(createCourse.getId() >0);
+        assertEquals(courseRequest.getTitle(),createCourse.getTitle());
+        assertEquals(courseRequest.getDescription(),createCourse.getDescription());
+        assertEquals(courseRequest.getPrice(),createCourse.getPrice());
+        assertEquals(instructor1.getId(),createCourse.getInstructor().getId());
+        assertEquals(instructor1.getEmail(),createCourse.getInstructor().getEmail());
+        assertEquals(instructor1.getUserName(),createCourse.getInstructor().getUsername());
+        assertEquals(0,createCourse.getStudents().size());
+        assertFalse(createCourse.isRegistered());
+
+
+    }
+
+    @Test
+    @Transactional
+    public void enrollCourse_success(){
+        User instructor1 =userDao.getUserByEmail("instructor1.ku@gmail.com");
+        assertNotNull(instructor1);
+
+
+        Course course =courseDao.findCourseByCourseId(4);
+        assertNotNull(course);
+        assertEquals(course.getUsers().size(),0);
+
+
+        User student2 =userDao.getUserByEmail("student2.ku@gmail.com");
+        assertNotNull(student2);
+        assertNull(courseDao.findCoursesByStudentId(student2.getId()));
+
+        PageCourse enrollCourse =  courseService.enrollCourse(student2.getEmail(),course.getId());
+        assertNotNull(enrollCourse);
+
+        assertTrue(enrollCourse.getId() >0);
+        assertEquals(enrollCourse.getTitle(),enrollCourse.getTitle());
+        assertEquals(course.getDescription(),enrollCourse.getDescription());
+        assertEquals(course.getPrice(),enrollCourse.getPrice());
+        assertEquals(instructor1.getId(),enrollCourse.getInstructor().getId());
+        assertEquals(instructor1.getEmail(),enrollCourse.getInstructor().getEmail());
+        assertEquals(instructor1.getUserName(),enrollCourse.getInstructor().getUsername());
+        assertEquals(1,enrollCourse.getStudents().size());
+        assertEquals(student2.getId(),enrollCourse.getStudents().get(0));
+        assertTrue(enrollCourse.isRegistered());
+
+    }
+
+    @Test
+    @Transactional
+    public void enrollCourse_success_repeatEnroll(){
+
+
+        User student1 =userDao.getUserByEmail("student1.ku@gmail.com");
+        assertNotNull(student1);
+        User tmp = courseDao.findCoursesByStudentId(student1.getId());
+
+        assertNotNull(tmp);
+        Course studentCourse = tmp.getCourses_student().get(0);
+
+        User instructor1 =userDao.getUserByEmail("instructor1.ku@gmail.com");
+        assertNotNull(instructor1);
+
+
+        Course course =courseDao.findCourseByCourseId(studentCourse.getId());
+        assertNotNull(course);
+        assertTrue(course.getUsers().size()==1);
+        assertEquals(instructor1.getId(),course.getUser().getId());
+
+
+
+        PageCourse enrollCourse =  courseService.enrollCourse(student1.getEmail(),studentCourse.getId());
+        assertNotNull(enrollCourse);
+
+        assertTrue(enrollCourse.getId() >0);
+        assertEquals(enrollCourse.getTitle(),enrollCourse.getTitle());
+        assertEquals(course.getDescription(),enrollCourse.getDescription());
+        assertEquals(course.getPrice(),enrollCourse.getPrice());
+        assertEquals(instructor1.getId(),enrollCourse.getInstructor().getId());
+        assertEquals(instructor1.getEmail(),enrollCourse.getInstructor().getEmail());
+        assertEquals(instructor1.getUserName(),enrollCourse.getInstructor().getUsername());
+        assertEquals(1,enrollCourse.getStudents().size());
+        assertEquals(student1.getId(),enrollCourse.getStudents().get(0));
+        assertTrue(enrollCourse.isRegistered());
+
+    }
+
+
+
+
+    @Test
+    @Transactional
+    public void enrollCourse_fail(){
+        int courseId= 100;
+
+        Course noCourse =courseDao.findCourseByCourseId(courseId);
+        assertNull(noCourse);
+
+
+        User student2 =userDao.getUserByEmail("student2.ku@gmail.com");
+        assertNotNull(student2);
+        assertNull(courseDao.findCoursesByStudentId(student2.getId()));
+
+        assertNull(courseService.enrollCourse(student2.getEmail(),courseId));
+
+
+    }
+
+
 
 
 

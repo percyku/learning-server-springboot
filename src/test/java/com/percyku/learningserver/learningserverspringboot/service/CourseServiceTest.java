@@ -335,6 +335,8 @@ class CourseServiceTest {
 
     @BeforeEach
     public void setupDatabase() {
+        jdbc.execute("INSERT INTO role (name) VALUES ('ROLE_STUDENT'),('ROLE_INSTRUCTOR')");
+
         jdbc.execute("INSERT INTO user (username,password,enabled, first_name, last_name, email) VALUES ('student1','$2a$04$eFytJDGtjbThXa80FyOOBuFdK2IwjyWefYkMpiBEFlpBwDH.5PM0K',1,'student1', 'ku', 'student1.ku@gmail.com')");
         jdbc.execute("INSERT INTO users_roles (user_id,role_id) VALUES (1, 1)");
         jdbc.execute("INSERT INTO user (username,password,enabled, first_name, last_name, email) VALUES ('student2','$2a$04$eFytJDGtjbThXa80FyOOBuFdK2IwjyWefYkMpiBEFlpBwDH.5PM0K',1,'student2', 'ku', 'student2.ku@gmail.com')");

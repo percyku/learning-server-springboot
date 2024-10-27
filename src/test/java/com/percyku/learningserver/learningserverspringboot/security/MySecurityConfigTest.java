@@ -121,6 +121,9 @@ public class MySecurityConfigTest {
         jdbc.execute("DELETE FROM users_roles");
         jdbc.execute("DELETE FROM user ");
         jdbc.execute("ALTER TABLE user AUTO_INCREMENT = 1");
+
+        jdbc.execute("DELETE FROM role");
+        jdbc.execute("ALTER TABLE role AUTO_INCREMENT = 1");
     }
 
 

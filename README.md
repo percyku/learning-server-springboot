@@ -5,7 +5,7 @@
 # Technology
 
 Spring boot background (3.1.5)
-MySQL(8.0.22) -> Using [create-schema.sql](https://github.com/darbyluv2code/java-programming-introduction-for-beginners) / [create-tables.sql](https://github.com/darbyluv2code/java-programming-introduction-for-beginners) to create schema & table
+MySQL(8.0.22) -> Using [create-schema.sql](https://github.com/percyku/learning-server-springboot/blob/master/create-schema.sql) / [create-tables.sql](https://github.com/percyku/learning-server-springboot/blob/master/create-tables.sql) to create schema & table
 JPA/Hibernate
 Spring Security
 JUnit5
@@ -28,12 +28,12 @@ You can use postman to test below API
 
 Register(roles: ["ROLE_INTRUTOR"]/["ROLE_STUDNET"])
 
-[<img src="images/spring-boot-unit-testing-thumbnail.png">](http://www.luv2code.com/spring-boot-unit-testing-github)
+[<img src="images/Register.png">](https://github.com/percyku/learning-server-springboot/blob/master/image/Register.png)
 
 Login (URL Param: role=ROLE_INTRUTOR/ role=ROLE_STUDENT)
 
-[<img src="images/spring-boot-unit-testing-thumbnail.png">](http://www.luv2code.com/spring-boot-unit-testing-github)
+[<img src="images/Login.png">](https://github.com/percyku/learning-server-springboot/blob/master/image/Login.png)
 
 Logout
 
-[<img src="images/spring-boot-unit-testing-thumbnail.png">](http://www.luv2code.com/spring-boot-unit-testing-github)
+[<img src="images/Logout.png">](https://github.com/percyku/learning-server-springboot/blob/master/image/Logout.png)

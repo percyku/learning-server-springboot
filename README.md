@@ -26,13 +26,13 @@ This program is for Restful API practice
 You can use postman to test below API
 
 - Register(Json body roles: ["ROLE_INTRUTOR"]/["ROLE_STUDNET"])
-  [<img src="images/register.png">](https://github.com/percyku/learning-server-springboot/blob/master/images/register.png)
+  [<img src="images/user-register.png">](https://github.com/percyku/learning-server-springboot/blob/master/images/user-register.png)
 
 - Login (URL Param: role=ROLE_INTRUTOR/ role=ROLE_STUDENT)
-  [<img src="images/login.png">](https://github.com/percyku/learning-server-springboot/blob/master/images/login.png)
+  [<img src="images/user-login.png">](https://github.com/percyku/learning-server-springboot/blob/master/images/user-login.png)
 
 - Logout
-  [<img src="images/logout.png">](https://github.com/percyku/learning-server-springboot/blob/master/imags/logout.png)
+  [<img src="images/user-logout.png">](https://github.com/percyku/learning-server-springboot/blob/master/imags/user-logout.png)
 
 - Create Course (Only for Instructor,please type Instructor account/password in Basic Auth )
   [<img src="images/create-course.png">](https://github.com/percyku/learning-server-springboot/blob/master/imags/create-course.png)

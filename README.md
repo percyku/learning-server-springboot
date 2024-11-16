@@ -30,7 +30,7 @@ then you can use spring.jpa.hibernate.ddl-auto=create (fold:/test/resources/appl
   - UserControllerTest
   - CourseControllerTest
 - Service
-  - CourseServiceTest
+  - UserServiceTest
   - CourseServiceTest
 - Security
   - MySecurityConfigTest

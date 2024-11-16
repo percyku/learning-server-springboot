@@ -4,36 +4,36 @@
 
 # Technology
 
-Spring boot background (3.1.5)
-MySQL(8.0.22) -> Using [create-schema.sql](https://github.com/percyku/learning-server-springboot/blob/master/create-schema.sql) / [create-tables.sql](https://github.com/percyku/learning-server-springboot/blob/master/create-tables.sql) to create schema & table
-JPA/Hibernate
-Spring Security
-JUnit5
+- Spring boot background (3.1.5)
+- MySQL(8.0.22) -> Using [create-schema.sql](https://github.com/percyku/learning-server-springboot/blob/master/create-schema.sql) / [create-tables.sql](https://github.com/percyku/learning-server-springboot/blob/master/create-tables.sql) to create schema & table
+
+- JPA/Hibernate
+- Spring Security
+
+- JUnit5
 
 # Function
 
-Member Registration -> Role:Instrutor,Student
+- Member Registration -> Role:Instrutor,Student
+- Member Login/Logout
 
-Member Login/Logout
+- Instrutor Create class
+- Studnet Register class
 
-Instrutor Create class
-
-Studnet Register class
-
-Studnet Search class
+- Studnet Search class
 
 # Restful API
 
 You can use postman to test below API
 
-Register(roles: ["ROLE_INTRUTOR"]/["ROLE_STUDNET"])
+- Register(roles: ["ROLE_INTRUTOR"]/["ROLE_STUDNET"])
 
-[<img src="images/Register.png">](https://github.com/percyku/learning-server-springboot/blob/master/image/Register.png)
+[<img src="images/Register.png">](https://github.com/percyku/learning-server-springboot/blob/master/images/Register.png)
 
-Login (URL Param: role=ROLE_INTRUTOR/ role=ROLE_STUDENT)
+- Login (URL Param: role=ROLE_INTRUTOR/ role=ROLE_STUDENT)
 
-[<img src="images/Login.png">](https://github.com/percyku/learning-server-springboot/blob/master/image/Login.png)
+[<img src="images/Login.png">](https://github.com/percyku/learning-server-springboot/blob/master/images/Login.png)
 
-Logout
+- Logout
 
-[<img src="images/Logout.png">](https://github.com/percyku/learning-server-springboot/blob/master/image/Logout.png)
+[<img src="images/Logout.png">](https://github.com/percyku/learning-server-springboot/blob/master/imags/Logout.png)

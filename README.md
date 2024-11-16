@@ -1,6 +1,6 @@
 # Learning Service SpringBoot
 
-This program is for Restful API practice
+This program is for RESTful API practice
 
 # Technology
 
@@ -27,10 +27,15 @@ First thing ,you need to create [create-schema-unit-test.sql](https://github.com
 then you can use spring.jpa.hibernate.ddl-auto=create (fold:/test/resources/application.properties) or [create-tables-unit-test.sql](https://github.com/percyku/learning-server-springboot/blob/master/create-tables-unit-test.sql) to create tables
 
 - Controller
+  - UserControllerTest
+  - CourseControllerTest
 - Service
+  - CourseServiceTest
+  - CourseServiceTest
 - Security
+  - MySecurityConfigTest
 
-# Restful API
+# RESTful API
 
 You can use postman to test below API
 

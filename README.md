@@ -38,4 +38,5 @@ then you can use spring.jpa.hibernate.ddl-auto=create (fold:/test/resources/appl
 # RESTful API
 
 You can use postman to test those API.
-Please follow this [detail](https://github.com/percyku/learning-server-springboot/blob/master/restful-api-operation) to operate
+
+Please follow this [detail](https://github.com/percyku/learning-server-springboot/blob/master/restful-api-operation.md) to operate

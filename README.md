@@ -2,7 +2,12 @@
 
 This program is for RESTful API practice
 
-# Technology
+
+# Programming Languages
+- Java(1.7)
+- SQL
+
+# Technologies
 
 - Spring boot background (3.1.5)
 - Spring Security
@@ -17,14 +22,15 @@ This program is for RESTful API practice
 
 - Member Registration -> Role:Instrutor,Student
 - Member Login/Logout
-- Instrutor Create class
-- Studnet Register class
-- Studnet Search class
+- Instructor Create class
+- Student Register class
+- Student Search class
+
 
 # Unit Test
 
 First thing ,you need to create [create-schema-unit-test.sql](https://github.com/percyku/learning-server-springboot/blob/master/create-schema-unit-test.sql) in MYSQL for unit test,
-then you can use spring.jpa.hibernate.ddl-auto=create (fold:/test/resources/application.properties) or [create-tables-unit-test.sql](https://github.com/percyku/learning-server-springboot/blob/master/create-tables-unit-test.sql) to create tables
+then you can use spring.jpa.hibernate.ddl-auto=create (folder:/test/resources/application.properties) or [create-tables-unit-test.sql](https://github.com/percyku/learning-server-springboot/blob/master/create-tables-unit-test.sql) to create tables
 
 - Controller
   - UserControllerTest
@@ -37,6 +43,6 @@ then you can use spring.jpa.hibernate.ddl-auto=create (fold:/test/resources/appl
 
 # RESTful API
 
-You can use postman to test those API.
+You can use postman to test those APIs.
 
 Please follow this [detail](https://github.com/percyku/learning-server-springboot/blob/master/restful-api-operation.md) to operate

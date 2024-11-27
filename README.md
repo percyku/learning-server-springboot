@@ -55,3 +55,5 @@ Please follow this [detail](https://github.com/percyku/learning-server-springboo
 
 [Spring Boot Unit Testing with JUnit, Mockito and MockMvc](https://www.udemy.com/course/spring-boot-unit-testing/?couponCode=BFCPSALE24)
 
+[資安一把罩！Spring Security 零基礎入門](https://hahow.in/courses/64d4acbf018e4b0acfaac3a3)
+

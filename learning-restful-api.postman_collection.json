@@ -1,0 +1,460 @@
+{
+	"info": {
+		"_postman_id": "96025bcd-bf94-4d30-bf04-e4d52dc40f3f",
+		"name": "springboot api",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "6870331"
+	},
+	"item": [
+		{
+			"name": "login_instructor",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "studnet1.ku@gmail.com",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "fun123",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Basic cGVyY3lrdTE5QGdtYWlsLmNvbTpmdW4xMjM=",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/loginforlearnsys?role=ROLE_INSTRUCTOR",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"loginforlearnsys"
+					],
+					"query": [
+						{
+							"key": "role",
+							"value": "ROLE_INSTRUCTOR"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "login_student",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "percyku19@gmail.com",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "fun123",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/loginforlearnsys?role=ROLE_STUDENT",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"loginforlearnsys"
+					],
+					"query": [
+						{
+							"key": "role",
+							"value": "ROLE_STUDENT"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "logoutSuccess",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "studnet1.ku@gmail.com",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "fun123",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/logoutSuccess",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"logoutSuccess"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getCourseByName",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "student1@gmail.com",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "fun123",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/courses/findByName?courseName=test",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"courses",
+						"findByName"
+					],
+					"query": [
+						{
+							"key": "courseName",
+							"value": "test"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getEnrolledCourses",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "student1@gmail.com",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "fun123",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/courses/student/5",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"courses",
+						"student",
+						"5"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getCoursesByInstructor",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "instrucotr1@gmail.com",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "fun123",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/courses/instructor/8",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"courses",
+						"instructor",
+						"8"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "register",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\n    \"email\":\"Peter0526gmail.com\",\n    \"password\":\"fun123\",\n    \"username\" : \"Peter17\",\n    \"first_name\": \"Peter17\",\n    \"last_name\":\"ku\",\n    \"roles\" : [\"ROLE_STUDENT\"]\n\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/register",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "updateProfile",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "X-XSRF-TOKEN",
+						"value": "b500a8cb-e7db-49e9-b61e-0eb73ddee91c",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\n    \"email\":\"percyku19@gmail.com\",\n    \"password\":\"fun123\",\n    \"username\" : \"Percy19\",\n    \"first_name\": \"percy1919\",\n    \"last_name\":\"ku\",\n    \"roles\" : [\"ROLE_STUDENT\"]\n\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/updateProfile",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"updateProfile"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "logoutforlearnsys",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "X-XSRF-TOKEN",
+						"value": "bb328ae7-ad40-4ea1-a7b2-73b25d4b69fe",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\n    \"email\":\"Peter0526gmail.com\",\n    \"password\":\"fun123\",\n    \"username\" : \"Peter17\",\n    \"first_name\": \"Peter17\",\n    \"last_name\":\"ku\",\n    \"roles\" : [\"ROLE_STUDENT\"]\n\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/logoutforlearnsys",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"logoutforlearnsys"
+					],
+					"query": [
+						{
+							"key": "X-XSRF-TOKEN",
+							"value": "2352dd21-09e3-4ceb-91bc-f4c97eff2402",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "createCourse",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "X-XSRF-TOKEN",
+						"value": "52698fb8-85dc-4522-9e35-7c9bf82d0e60",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"title\": \"AI 2024 GB200\",\n    \"description\": \"unique class enhance content\",\n    \"price\": 1231\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/courses",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"courses"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "enrollCourse",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "studnet1.ku@gmail.com",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "fun123",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [
+					{
+						"key": "X-XSRF-TOKEN",
+						"value": "1dce4fdb-ebbd-4d0e-b7d2-5422e75ccee0",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8080/api/courses/enroll/14",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"courses",
+						"enroll",
+						"14"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

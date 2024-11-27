@@ -11,7 +11,6 @@ This program is for RESTful API practice
 
 - Spring boot background (3.1.5)
 - Spring Security
-- Java(1.7)
 - JUnit5
 - JPA/Hibernate
 - MySQL(8.0.22) -> Using [create-schema.sql](https://github.com/percyku/learning-server-springboot/blob/master/create-schema.sql) / [create-tables.sql](https://github.com/percyku/learning-server-springboot/blob/master/create-tables.sql) /[create-users-data.sql](https://github.com/percyku/learning-server-springboot/blob/master/create-users-data.sql) to create schema / tables /users data
@@ -44,5 +43,5 @@ then you can use spring.jpa.hibernate.ddl-auto=create (folder:/test/resources/ap
 # RESTful API
 
 You can use postman to test those APIs.
-
+(notes: import this file to postman [restful-api-file](https://github.com/percyku/learning-server-springboot/blob/master/learning-restful-api.postman_collection.json))
 Please follow this [detail](https://github.com/percyku/learning-server-springboot/blob/master/restful-api-operation.md) to operate

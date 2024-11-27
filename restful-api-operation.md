@@ -12,6 +12,10 @@
 
   [<img src="images/user-logout.png">](https://github.com/percyku/learning-server-springboot/blob/master/images/user-logout.png)
 
+- Update Profile(Please type correct account/password in Basic Auth)
+
+  [<img src="images/user-update-profile.png">](https://github.com/percyku/learning-server-springboot/blob/master/images/user-update-profile.png)
+
 - Create Course (Only for Instructor,please type Instructor account/password in Basic Auth )
 
   [<img src="images/create-course.png">](https://github.com/percyku/learning-server-springboot/blob/master/imags/create-course.png)

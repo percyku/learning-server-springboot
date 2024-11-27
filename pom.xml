@@ -72,12 +72,12 @@
 			<scope>test</scope>
 		</dependency>
 
-		<!-- H2 資料庫 -->
-		<dependency>
-			<groupId>com.h2database</groupId>
-			<artifactId>h2</artifactId>
-			<scope>runtime</scope>
-		</dependency>
+<!--		&lt;!&ndash; H2 資料庫 &ndash;&gt;-->
+<!--		<dependency>-->
+<!--			<groupId>com.h2database</groupId>-->
+<!--			<artifactId>h2</artifactId>-->
+<!--			<scope>runtime</scope>-->
+<!--		</dependency>-->
 
 		<!-- hot reload -->
 		<dependency>

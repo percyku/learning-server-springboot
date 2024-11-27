@@ -105,6 +105,71 @@ public class UserServiceImpl implements UserService {
         return member;
     }
 
+
+    @Override
+    @Transactional
+    public Long update(   String userEmail ,UserRegisterRequest updateMember) {
+        User user = userDao.getUserByEmail(userEmail);
+
+        if(user == null){
+            return (long)-2;
+        }
+
+        if(!userEmail.equals(updateMember.getEmail())){
+            if(userDao.getUserByEmail(updateMember.getEmail())!=null){
+                log.debug("Exist update mail:"+updateMember.getEmail());
+                return (long)-1;
+            }else{
+                user.setEmail(updateMember.getEmail());
+            }
+        }
+        user.setUserName(updateMember.getUsername());
+        user.setLastName(updateMember.getLast_name());
+        user.setFirstName(updateMember.getFirst_name());
+
+        if(updateMember.getPassword()!=null && !updateMember.getPassword().equals("Empty123")){
+            user.setPassword(passwordEncoder.encode(updateMember.getPassword()));
+        }
+
+        List<Role> theRole =new ArrayList<>();
+        boolean enabled=false;
+        if(updateMember.getRoles()!= null){
+            for(String roleName : updateMember.getRoles()) {
+                Role tmpRole = new Role();
+                log.debug("roleName:"+roleName);
+                long roleId = 0;
+                if ("ROLE_STUDENT".equals(roleName)) {
+                    roleId = 1;
+                } else if ("ROLE_INSTRUCTOR".equals(roleName)) {
+                    roleId = 2;
+                } else if ("ROLE_ADMIN".equals(roleName)) {
+                    roleId = 3;
+                }
+                tmpRole.setId(roleId);
+                tmpRole.setName(roleName);
+                theRole.add(tmpRole);
+            }
+            enabled=true;
+        }
+
+        if(!user.isEnabled()){
+            log.debug("!user.isEnabled()");
+            user.setEnabled(true);
+            user.setRoles(theRole);
+            return userDao.update(user);
+
+        }
+        else{
+            log.debug("user.isEnabled()");
+        }
+
+
+
+
+
+        return user.getId();
+    }
+
     @Override
     public Member getMemberByEmail(String email) {
         User user =userDao.getUserByEmail(email);

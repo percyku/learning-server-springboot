@@ -21,9 +21,10 @@ This program is for RESTful API practice
 
 - Member Registration -> Role:Instrutor,Student
 - Member Login/Logout
+- Member Update Profile
 - Instructor Create class
-- Student Register class
 - Student Search class
+- Student Enroll class
 
 
 # Unit Test
@@ -44,4 +45,13 @@ then you can use spring.jpa.hibernate.ddl-auto=create (folder:/test/resources/ap
 
 You can use postman to test those APIs.
 (notes: import this file to postman [restful-api-file](https://github.com/percyku/learning-server-springboot/blob/master/learning-restful-api.postman_collection.json))
+
 Please follow this [detail](https://github.com/percyku/learning-server-springboot/blob/master/restful-api-operation.md) to operate
+
+
+# Ref
+
+[[NEW] Spring Boot 3, Spring 6 & Hibernate for Beginners](https://www.udemy.com/course/spring-hibernate-tutorial/?couponCode=BFCPSALE24)
+
+[Spring Boot Unit Testing with JUnit, Mockito and MockMvc](https://www.udemy.com/course/spring-boot-unit-testing/?couponCode=BFCPSALE24)
+

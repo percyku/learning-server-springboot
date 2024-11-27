@@ -8,6 +8,8 @@ public interface UserService {
 
     Long createUser(UserRegisterRequest member);
 
+    Long update( String userEmail ,UserRegisterRequest updateMember);
+
     Member getMemberById(Long memberId);
 
     Member getMemberByEmail(String email);

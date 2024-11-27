@@ -58,4 +58,11 @@ public class UserDaoImpl implements UserDao {
         entityManager.merge(user);
         return user.getId();
     }
+
+    @Override
+    public Long update(User theUser) {
+//        entityManager.contains(theUser);
+        entityManager.merge(theUser);
+        return theUser.getId();
+    }
 }

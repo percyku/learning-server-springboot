@@ -61,7 +61,7 @@ public class MySecurityConfig {
                 .authorizeHttpRequests(request -> request
                         .requestMatchers("/register","/logoutSuccess","/loginTest").permitAll()
 //                        .requestMatchers("/welcome","/welcome2","/loginforlearnsys","/logoutforlearnsys").authenticated()
-                        .requestMatchers("/loginforlearnsys","/logoutforlearnsys").authenticated()
+                        .requestMatchers("/updateProfile","/loginforlearnsys","/logoutforlearnsys").authenticated()
                         .requestMatchers("/api/courses/student/{id}","/api/courses/findByName","/api/courses/enroll/{courseId}").hasRole("STUDENT")
                         .requestMatchers("/api/courses/instructor/{id}","/api/courses").hasRole("INSTRUCTOR")
 
